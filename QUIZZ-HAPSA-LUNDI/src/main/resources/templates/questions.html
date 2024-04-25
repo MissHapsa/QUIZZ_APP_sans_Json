@@ -12,207 +12,68 @@
         h1 {
             color: #333;
         }
-        .question {
+        .questionNom {
+            margin-bottom: 40px;
+            font-size: 30px;
+            text-decoration: forestgreen;
             margin-bottom: 20px;
+            text-decoration: underline;
         }
-        .options {
+        .title {
+            margin-bottom: 40px;
+            font-size: 35px;
+        }
+        option {
             display: flex;
             justify-content: center;
             margin-top: 10px;
+            font-size: 30px ;
         }
-        .option {
+        option {
             margin: 0 10px;
         }
-        .question-container {
+        questionContainer {
             display: none;
         }
-        #nextButton {
-            margin-top: 20px;
+        button {
+            padding: 10px 20px;
+            margin-top: 40px;
+            font-size: 16px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
         }
     </style>
 </head>
 <body>
-<div id="question1" class="question-container">
-<h1>Question 1</h1>
-<div class="question">
-    <p>Quelle est la capitale de la France?</p>
-</div>
-<div class="options">
-    <input type="radio" id="q1-option1" class="option" name="question1" value="Paris">
-    <label for="q1-option1" class="option-label" onclick="selectOption(this)">Paris</label>
 
-    <input type="radio" id="q1-option2" class="option" name="question1" value="Londres">
-    <label for="q1-option2" class="option-label" onclick="selectOption(this)">Londres</label>
+<form action="/nextQuestion" method="get">
+    <!-- Boucle pour afficher les questions -->
+    <div id="questionContainer">
+        <div class="ques" th:each="ques : ${questions}">
+            <p class="questionNom" th:text="${ques.questionNom}"></p>
+            <p class="title" th:text="${ques.title}"></p>
+            <input type="radio" name="ques_${ques.quesId}" value="A">
+            <label th:for="optionA" th:text="${ques.optionA}"></label>
 
-    <input type="radio" id="q1-option3" class="option" name="question1" value="Berlin">
-    <label for="q1-option3" class="option-label" onclick="selectOption(this)">Berlin</label>
+            <input type="radio" name="ques_${ques.quesId}" value="B">
+            <label th:for="optionB" th:text="${ques.optionB}"></label>
 
-    <input type="radio" id="q1-option4" class="option" name="question1" value="Rome">
-    <label for="q1-option4" class="option-label" onclick="selectOption(this)">Rome</label>
-</div>
-<button id="nextButton1" onclick="checkAnswerAndShowNext('question2')">Suivant</button>
-</div>
-<!-- Question 2 -->
-<div id="question2" class="question-container">
-    <h1>Question 2</h1>
-    <div class="question">
-        <p>Quelle est la couleur du ciel par temps clair?</p>
+            <input type="radio" name="ques_${ques.quesId}" value="C">
+            <label th:for="optionC" th:text="${ques.optionC}"></label>
+
+            <input type="radio" name="ques_${ques.quesId}" value="D">
+            <label th:for="optionD" th:text="${ques.optionD}"></label>
+
+            <input type="hidden" name="rep_${ques.quesId}" value="${ques.rep}">
+        </div>
     </div>
-    <div class="options">
-        <input type="radio" id="q2-option1" class="option" name="question2" value="Vert">
-        <label for="q2-option1" class="option-label" onclick="selectOption(this)">Vert</label>
 
-        <input type="radio" id="q2-option2" class="option" name="question2" value="Bleu">
-        <label for="q2-option2" class="option-label" onclick="selectOption(this)">Bleu</label>
-
-        <input type="radio" id="q2-option3" class="option" name="question2" value="Rouge">
-        <label for="q2-option3" class="option-label" onclick="selectOption(this)">Rouge</label>
-
-        <input type="radio" id="q2-option4" class="option" name="question2" value="Jaune">
-        <label for="q2-option4" class="option-label" onclick="selectOption(this)">Jaune</label>
-    </div>
-    <button id="nextButton2" onclick="checkAnswerAndShowNext('question3')">Suivant</button>
-</div>
-
-<!-- Question 3 -->
-<div id="question3" class="question-container">
-    <h1>Question 3</h1>
-    <div class="question">
-        <p>Quel est le symbole chimique de l'eau?</p>
-    </div>
-    <div class="options">
-        <input type="radio" id="q3-option1" class="option" name="question3" value="H2o">
-        <label for="q3-option1" class="option-label" onclick="selectOption(this)">H2o</label>
-
-        <input type="radio" id="q3-option2" class="option" name="question3" value="o">
-        <label for="q3-option2" class="option-label" onclick="selectOption(this)">o</label>
-
-        <input type="radio" id="q3-option3" class="option" name="question3" value="C2o">
-        <label for="q3-option3" class="option-label" onclick="selectOption(this)">C2o</label>
-
-        <input type="radio" id="q3-option4" class="option" name="question3" value="Z">
-        <label for="q3-option4" class="option-label" onclick="selectOption(this)">Z</label>
-    </div>
-    <button id="nextButton3" onclick="checkAnswerAndShowNext('question4')">Suivant</button>
-</div>
-
-<!-- Question 4 -->
-<div id="question4" class="question-container">
-    <h1>Question 4</h1>
-    <div class="question">
-        <p>Combien de continents y a-t-il dans le monde?</p>
-    </div>
-    <div class="options">
-
-        <input type="radio" id="q4-option1" class="option" name="question4" value="1">
-        <label for="q4-option1" class="option-label" onclick="selectOption(this)">1</label>
-
-        <input type="radio" id="q4-option2" class="option" name="question4" value="3">
-        <label for="q4-option2" class="option-label" onclick="selectOption(this)">3</label>
-
-        <input type="radio" id="q4-option3" class="option" name="question4" value="4">
-        <label for="q4-option3" class="option-label" onclick="selectOption(this)">4</label>
-
-        <input type="radio" id="q4-option4" class="option" name="question4" value="7">
-        <label for="q4-option4" class="option-label" onclick="selectOption(this)">7</label>
-    </div>
-    <button id="nextButton4" onclick="checkAnswerAndShowNext('question5')">Suivant</button>
-</div>
-
-<!-- Question 5 -->
-<div id="question5" class="question-container">
-    <h1>Question 5</h1>
-    <div class="question">
-        <p>Quel est le plus grand océan du monde?</p>
-    </div>
-    <div class="options">
-
-        <input type="radio" id="q5-option1" class="option" name="question5" value="Pacifique">
-        <label for="q5-option1" class="option-label" onclick="selectOption(this)">Pacifique</label>
-
-        <input type="radio" id="q5-option2" class="option" name="question5" value="Indien">
-        <label for="q5-option2" class="option-label" onclick="selectOption(this)">Indien</label>
-
-        <input type="radio" id="q5-option3" class="option" name="question5" value="Atlantique">
-        <label for="q5-option3" class="option-label" onclick="selectOption(this)">Atlantique</label>
-
-        <input type="radio" id="q5-option4" class="option" name="question5" value="Arctique">
-        <label for="q5-option4" class="option-label" onclick="selectOption(this)">Arctique</label>
-    </div>
-    <button id="submitButton" onclick="submitAnswers()">Terminer</button>
-</div>
-
-<script>
+    <button type="submit" class="btn btn-danger d-block mx-auto mt-4">Suivant</button>
+</form>
 
 
-    function selectOption(option) {
-        // Fonction appelée lorsqu'une option est sélectionnée
-        // Vous pouvez ajouter ici des effets visuels pour indiquer la sélection de l'utilisateur
-    }
-    var score = 0;
-    function checkAnswerAndShowNext(nextQuestionId) {
-        var currentQuestionId = nextQuestionId.replace("question", "") - 1;
-        var selectedOption = document.querySelector('input[name="question' + currentQuestionId + '"]:checked');
-        if (selectedOption) {
-            var selectedValue = selectedOption.value;
-            switch (currentQuestionId) {
-                case 1:
-                    if (selectedValue === "Paris") {
-                        score += 2;
-                    }
-                    break;
-                case 2:
-                    if (selectedValue === "Bleu") {
-                        score += 2;
-                    }
-                    break;
-                case 3:
-                    if (selectedValue === "H2o") {
-                        score += 2;
-                    }
-                    break;
-                case 4:
-                    if (selectedValue === "7") {
-                        score += 2;
-                    }
-                    break;
-                case 5:
-                    if (selectedValue === "Pacifique") {
-                        score += 2;
-                    }
-                    break;
-            }
-            // Afficher le score si nécessaire
-            console.log("Score: " + score);
-        }
-        // Afficher la question suivante
-        showQuestion(nextQuestionId);
-    }
-
-    function submitAnswers() {
-        // Ici, vous pouvez collecter et soumettre les réponses de l'utilisateur
-        alert("Réponses soumises avec succès ! Score final: " + score);
-    }
-showQuestion("question1");
-    function showQuestion(questionId) {
-        const ListeDesQuestions = document.querySelectorAll(".question-container");
-        ListeDesQuestions.forEach(function (question) {
-            question.style.display = "none";
-        });
-
-
-        // Afficher la question et le bouton "Suivant" de la question actuelle
-        var currentQuestionElement = document.getElementById(questionId);
-            currentQuestionElement.style.display = "block";
-
-
-
-        // Afficher le bouton "Terminer" si c'est la dernière question
-        if (questionId === "question5") {
-            document.getElementById("submitButton").style.display = "inline-block";
-        }
-    }
-
-</script>
 </body>
 </html>

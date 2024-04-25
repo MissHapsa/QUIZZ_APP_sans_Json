@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Résultats du Quiz</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+        }
+        button {
+            padding: 10px 20px;
+            margin-top: 40px;
+            font-size: 16px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .result {
+            margin-top: 50px;
+        }
+    </style>
+</head>
+<body>
+<h1>Résultats du Quiz</h1>
+<form id="questionContainer">
+    <!-- Pour chaque question -->
+    <div class="ques" th:each="ques : ${questions}">
+        <p class="questionNom" th:text="${ques.questionNom}"></p>
+        <p class="title" th:text="${ques.title}"></p>
+        <input type="radio" name="rep_${ques.quesId}" value="A">
+        <label th:for="optionA" th:text="${ques.optionA}"></label>
+
+        <input type="radio" name="rep_${ques.quesId}" value="B">
+        <label th:for="optionB" th:text="${ques.optionB}"></label>
+
+        <input type="radio" name="rep_${ques.quesId}" value="C">
+        <label th:for="optionC" th:text="${ques.optionC}"></label>
+
+        <input type="radio" name="rep_${ques.quesId}" value="D">
+        <label th:for="optionD" th:text="${ques.optionD}"></label>
+    </div>
+    <!-- Bouton de soumission -->
+    <button type="button" onclick="calculerScore()">Vérifier les réponses</button>
+</form>
+<!-- Div pour afficher le résultat -->
+<div id="result" class="result"></div>
+
+<script>
+    function calculerScore() {
+        var score = 0;
+        var questions = document.querySelectorAll('.ques');
+        questions.forEach(function(question) {
+            var quesId = question.querySelector('input[type=radio]').name.split('_')[1];
+            var userAnswer = document.querySelector('input[name="rep_' + quesId + '"]:checked');
+            if (userAnswer) {
+                var selectedAnswer = userAnswer.value;
+                var correctAnswer = question.querySelector('input[type=radio][value="' + userAnswer.value + '"]').getAttribute('correct');
+                if (selectedAnswer === correctAnswer) {
+                    score += 2;
+                }
+            }
+        });
+
+        document.getElementById('result').innerHTML = '<h2>Résultat du Quiz</h2><p>Votre score est de ' + score + '/20.</p>';
+    }
+</script>
+</body>
+</html>
+
